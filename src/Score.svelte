@@ -1,17 +1,23 @@
 <script lang="ts">
-    import type { ScoreType } from './types/app.type'; 
-	import { score } from './stores'
+    import { score } from './stores'
     console.log(score)
 </script>
 
 <div class="score">
     <h4>Score</h4>
-    <p>Human: {$score.human}</p>
-    <p>Computer: {$score.computer}</p>
+    <div>
+        <p>Human: {$score.human}</p>
+        <p>Computer: {$score.computer}</p>
+    </div>
 </div>
 
 <style>
+    p, h4 {
+        padding:0;
+        margin:0;
+    }
     .score {
         border: 1px solid black;
+        width: 100px;
     }
 </style>

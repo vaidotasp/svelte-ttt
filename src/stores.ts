@@ -3,8 +3,6 @@ import type { Writable } from 'svelte/store'
 import type { ScoreType } from './types/app.type'
 import { subscribe } from 'svelte/internal'
 
-// export const score: Writable<ScoreType> = writable(initialScoreVal)
-
 function createScore() {
     const initialScoreVal: ScoreType = { human: 0, computer: 0 }
     const { subscribe, set, update } = writable(initialScoreVal)
@@ -25,3 +23,17 @@ function createScore() {
 }
 
 export const score = createScore()
+
+function createMessage() {
+    const defaultMessage = "Click START to start playing"
+    const { subscribe, set, update } = writable(defaultMessage)
+
+    return {
+        subscribe,
+        updateMessage: (newMsg) => update(v => v = newMsg),
+        reset: () => set(defaultMessage),
+    }
+
+}
+
+export const message = createMessage()
