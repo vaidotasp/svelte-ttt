@@ -1,17 +1,24 @@
 <script lang="ts">
-    import {score} from './stores'
     import Score from './Score.svelte'
     import GameBoard from './GameBoard.svelte'
     import StatusBar from './StatusBar.svelte'
+    import ChoosePlayer from './ChoosePlayer.svelte'
 
-    function updater(){
-        score.updateScore("human", 5);
-    }
+    let gameStarted = false;
+    let playerChosen: null | 'x' | 'o' = null;
 
     function initGame(){
-        console.log('game init');
+        gameStarted = true;
     }
 
+    function resetGame(){
+        gameStarted = false;
+        playerChosen = null;
+    }
+
+    function handleMessage(msg){
+        playerChosen = msg.detail.value;
+    }
 </script>
 
 <main>
@@ -20,9 +27,14 @@
         <Score />
         <div class="top-bar">
             <button on:click={initGame}>Start Game</button>
-            <button on:click={initGame}>Reset Game</button>
+            <button on:click={resetGame}>Reset Game</button>
         </div>
-        <GameBoard />
+        {#if gameStarted && !playerChosen}
+            <ChoosePlayer on:message={handleMessage} />
+        {/if}
+        {#if gameStarted && playerChosen}
+            <GameBoard playerChosen={playerChosen} />
+        {/if}
         <StatusBar />
     </div>
 </main>

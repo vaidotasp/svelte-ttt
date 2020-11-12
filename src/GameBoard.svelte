@@ -1,4 +1,5 @@
 <script lang="ts">
+    export let playerChosen: null | 'x' | 'o';
     import Cell from './Cell.svelte'
     const winningCombinations: Readonly<number[][]> = [
         [0, 1, 2],
@@ -17,6 +18,7 @@
     let gameState: 'running' | 'done' | 'idle' = 'idle';
     console.log('boardState', boardState)
     console.log('currentTurn', currentTurn)
+    console.log(playerChosen);
 </script>
 <div class="gameboard">
     {#each boardState as cell }
