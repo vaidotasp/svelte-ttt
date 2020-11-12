@@ -26,7 +26,6 @@
 
 <style>
     .gameboard{
-        border: 1px solid salmon;
         display: grid;
         justify-content: center;
         grid-template-columns: 150px 150px 150px;

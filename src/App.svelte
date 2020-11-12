@@ -15,30 +15,36 @@
 </script>
 
 <main>
-    <h1>TicTacToe game built with Svelte</h1>
-    <div class="top-bar">
+    <h1>TicTacToe game built with Svellllte</h1>
+    <div class="main-wrap">
         <Score />
-        <button on:click={initGame}>Start Game</button>
-        <button on:click={initGame}>Reset Game</button>
+        <div class="top-bar">
+            <button on:click={initGame}>Start Game</button>
+            <button on:click={initGame}>Reset Game</button>
+        </div>
+        <GameBoard />
+        <StatusBar />
     </div>
-    <GameBoard />
-    <StatusBar />
 </main>
 
 <style>
     main {
         text-align: center;
         padding: 1em;
-        /* display: grid; */
-        /* grid-template-columns: 1fr; */
-        /* justify-items: center; */
+    }
+
+    .main-wrap {
+        display: flex;
+        margin-top:20px;
+        flex-direction: column;
+        width: 400px;
+        margin: 0 auto;
     }
 
     h1 {
         color: #ff3e00;
         text-transform: uppercase;
         font-size: 4em;
-        font-weight: 100;
         padding:0;
         margin:0;
         margin-bottom: 20px;
@@ -46,8 +52,9 @@
 
     .top-bar {
         display: grid;
-        grid-template-columns: auto 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         justify-content: center;
+        margin-top: 20px;
     }
 
 </style>

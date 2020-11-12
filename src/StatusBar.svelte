@@ -5,6 +5,8 @@
 
 <style>
     .status {
+        margin-top: 5px;
+        padding: 5px;
         border: 1px solid blue;
     }
 </style>

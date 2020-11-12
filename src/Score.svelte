@@ -16,8 +16,4 @@
         padding:0;
         margin:0;
     }
-    .score {
-        border: 1px solid black;
-        width: 100px;
-    }
 </style>
