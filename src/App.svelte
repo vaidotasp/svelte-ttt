@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { game } from './stores'
     import Score from './Score.svelte'
     import GameBoard from './GameBoard.svelte'
     import StatusBar from './StatusBar.svelte'
@@ -14,10 +15,14 @@
     function resetGame(){
         gameStarted = false;
         playerChosen = null;
+        game.reset();
+
     }
 
     function handleMessage(msg){
         playerChosen = msg.detail.value;
+        game.pickPlayerSymbol(msg.detail.value);
+        // gameInstance.setGameState('running');
     }
 </script>
 
@@ -33,7 +38,7 @@
             <ChoosePlayer on:message={handleMessage} />
         {/if}
         {#if gameStarted && playerChosen}
-            <GameBoard playerChosen={playerChosen} />
+            <GameBoard />
         {/if}
         <StatusBar />
     </div>

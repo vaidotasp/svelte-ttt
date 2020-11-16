@@ -1,6 +1,5 @@
 <script lang="ts">
     import { score } from './stores'
-    console.log(score)
 </script>
 
 <div class="score">
