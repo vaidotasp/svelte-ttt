@@ -47,10 +47,21 @@ function createGameState() {
 
     function cellClick(cellIndex: number) {
         update((b) => (b = game.playerTurn(cellIndex)))
+
+        //timer?
+        function cTurn() {
+            update((b) => (b = game.computerTurn()))
+        }
+        setTimeout(cTurn, 500)
     }
 
     function pickPlayerSymbol(s: Symbols) {
+        //update symbols
         game.choosePlayers(s)
+        //if X is NOT chosen by the player, computer goes first as X always goes first
+        if (s !== 'x') {
+            update((b) => (b = game.computerTurn()))
+        }
     }
 
     return {
@@ -59,6 +70,7 @@ function createGameState() {
         pickPlayerSymbol,
         reset: () => {
             game = new Game()
+            update((b)=> b = Array(9).fill(null)) 
         },
     }
 }

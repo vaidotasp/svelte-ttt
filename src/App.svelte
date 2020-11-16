@@ -22,7 +22,6 @@
     function handleMessage(msg){
         playerChosen = msg.detail.value;
         game.pickPlayerSymbol(msg.detail.value);
-        // gameInstance.setGameState('running');
     }
 </script>
 
