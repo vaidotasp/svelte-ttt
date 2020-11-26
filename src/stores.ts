@@ -2,15 +2,15 @@ import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
 import type { ScoreType } from './types/app.type'
 import { subscribe } from 'svelte/internal'
-import { Game, Symbols } from './gameEngine'
+import { Game, Symbols, BoardState } from './gameEngine'
 
 function createScore() {
     const initialScoreVal: ScoreType = { human: 0, computer: 0 }
     const { subscribe, set, update } = writable(initialScoreVal)
 
-    function updateScore(player: 'human' | 'computer', val: number) {
+    function logWinner(player: 'human' | 'computer') {
         return update((v) => {
-            const updatedProperty = { [player]: val }
+            const updatedProperty = { [player]: v[player] + 1 }
             const newScoreObject = Object.assign(v, updatedProperty)
             v = newScoreObject
             return v
@@ -19,7 +19,7 @@ function createScore() {
 
     return {
         subscribe,
-        updateScore,
+        logWinner,
         reset: () => set(initialScoreVal),
     }
 }
@@ -46,11 +46,28 @@ function createGameState() {
     const { subscribe, set, update } = writable(gameBoard)
 
     function cellClick(cellIndex: number) {
-        update((b) => (b = game.playerTurn(cellIndex)))
+        let { board, winState } = game.playerTurn(cellIndex)
+        let winner = null
+        console.log(game.checkIfDraw())
+        update((b) => (b = board))
+        winner = winState
+        //TODO: check for draw
+        if (winner) {
+            message.updateMessage(`We got a winner - ${winner}`)
+            score.logWinner(game.checkSymbolOwnership(winState))
+            return
+        }
 
-        //timer?
         function cTurn() {
-            update((b) => (b = game.computerTurn()))
+            let { board, winState } = game.computerTurn()
+            console.log(game.checkIfDraw())
+            update((b) => (b = board))
+            winner = winState
+            //TODO: check for draw
+            if (winner) {
+                message.updateMessage(`We got a winner - ${winner}`)
+                score.logWinner(game.checkSymbolOwnership(winState))
+            }
         }
         setTimeout(cTurn, 500)
     }
@@ -60,7 +77,8 @@ function createGameState() {
         game.choosePlayers(s)
         //if X is NOT chosen by the player, computer goes first as X always goes first
         if (s !== 'x') {
-            update((b) => (b = game.computerTurn()))
+            let { board } = game.computerTurn()
+            update((b) => (b = board))
         }
     }
 
@@ -70,7 +88,7 @@ function createGameState() {
         pickPlayerSymbol,
         reset: () => {
             game = new Game()
-            update((b)=> b = Array(9).fill(null)) 
+            update((b) => (b = Array(9).fill(null)))
         },
     }
 }

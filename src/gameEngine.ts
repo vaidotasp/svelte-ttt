@@ -1,10 +1,10 @@
 // Types for the game engine
 export type Symbols = null | 'x' | 'o'
-type BoardState = Symbols[]
+export type BoardState = Symbols[]
 type GameState = 'running' | 'done' | 'idle'
 
 export class Game {
-    #winningCombinations: Readonly<number[][]> = [
+    _winningCombinations: Readonly<number[][]> = [
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
@@ -16,76 +16,99 @@ export class Game {
     ]
     _gameState: GameState = 'idle'
     boardState: BoardState = new Array(9).fill(null)
-    _symbols: { human: Symbols; computer: Symbols } = {
+    symbols: { human: Symbols; computer: Symbols } = {
         human: null,
         computer: null,
     }
 
+    checkWinState(board: BoardState, symbol: Symbols): null | Symbols {
+        let winState = false
+        let symbolIndexes = []
+        //get all symbol indexes
+        board.forEach((c, index) => {
+            if (c === symbol) {
+                symbolIndexes.push(index)
+            }
+        })
+        for (const wCombo of this._winningCombinations) {
+            const [p1, p2, p3] = wCombo
+            if (
+                symbolIndexes.includes(p1) &&
+                symbolIndexes.includes(p2) &&
+                symbolIndexes.includes(p3)
+            ) {
+                winState = true
+                break
+            }
+        }
+        if (winState) {
+            return symbol
+        }
+        return null
+    }
+
     choosePlayers(playerSymbol: Symbols): void {
         if (playerSymbol === 'x') {
-            this._symbols = { human: playerSymbol, computer: 'o' }
+            this.symbols = { human: playerSymbol, computer: 'o' }
         } else {
-            this._symbols = { human: playerSymbol, computer: 'x' }
+            this.symbols = { human: playerSymbol, computer: 'x' }
         }
     }
 
     computerTurn() {
-        debugger
-        //TODO:check for winning combinations
-        //get all available moves
         const availableMoves = []
         this.boardState.forEach((c, index) => {
             if (!c) {
                 availableMoves.push(index)
             }
         })
-        console.log(availableMoves)
         const randomMoveIndex =
             availableMoves.length === 1
                 ? 0
-                : Math.floor(
-                      Math.random() * (availableMoves.length - 1 + 1) 
-                  )
-        console.log(randomMoveIndex)
+                : Math.floor(Math.random() * (availableMoves.length - 1 + 1))
         const updatedBoard = [...this.boardState]
-        updatedBoard[availableMoves[randomMoveIndex]] = this._symbols.computer
+        updatedBoard[availableMoves[randomMoveIndex]] = this.symbols.computer
         this.boardState = updatedBoard
-        return this.boardState
+
+        const winState = this.checkWinState(
+            this.boardState,
+            this.symbols.computer
+        )
+        return { board: this.boardState, winState }
     }
 
-    playerTurn(cellIndex: number): BoardState {
-        //TODO:check for winning combinations
+    playerTurn(
+        cellIndex: number
+    ): { board: BoardState; winState: Symbols | null } {
         const updatedBoard = [...this.boardState]
-        updatedBoard[cellIndex] = this._symbols.human
+        updatedBoard[cellIndex] = this.symbols.human
         this.boardState = updatedBoard
-        return this.boardState
+
+        const winState = this.checkWinState(this.boardState, this.symbols.human)
+        return { board: this.boardState, winState }
     }
 
     setGameState(state: GameState) {
         this._gameState = state
     }
 
-    // get boardState(): BoardState {
-    //     return this._boardState
-    // }
-
     updateGameState(s: GameState): void {
         this._gameState = s
     }
 
     checkIfDraw(): boolean {
-        // if game board is not full, then it cant be a draw check
         const filledBoardCells = this.boardState.filter((c) => c)
-        if (filledBoardCells.length !== 9) {
-            return false
+        console.log(filledBoardCells)
+        if (filledBoardCells.length === 9) {
+            return true
         }
         return false
     }
 
-    //TODO Helpers
-    /*
-    1. Check if it is a valid move
-    2. Check if current board state is in a winning combination
-    3. check if current board state is in a draw 
-    */
+    checkSymbolOwnership(s: Symbols): 'human' | 'computer' {
+        if (this.symbols.computer === s) {
+            return 'computer'
+        }
+        return 'human'
+    }
 }

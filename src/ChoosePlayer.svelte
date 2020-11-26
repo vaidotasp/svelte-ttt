@@ -1,17 +1,10 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
+    import { createEventDispatcher } from 'svelte'
+    const dispatch = createEventDispatcher()
     function sendSymbol(val: 'x' | 'o'): void {
-        dispatch('message', { value: val})
+        dispatch('message', { value: val })
     }
 </script>
-
-
-<div class="choose-player">
-    <p>Choose your symbol:</p>
-    <button on:click={() => sendSymbol('x')}>X</button>
-    <button on:click={() => sendSymbol('o')}>O</button>
-</div>
 
 <style>
     button {
@@ -24,3 +17,9 @@
         border: 1px solid blue;
     }
 </style>
+
+<div class="choose-player">
+    <p>Choose your symbol:</p>
+    <button on:click={() => sendSymbol('x')}>X</button>
+    <button on:click={() => sendSymbol('o')}>O</button>
+</div>

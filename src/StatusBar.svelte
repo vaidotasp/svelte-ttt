@@ -1,6 +1,5 @@
 <script lang="ts">
-    import {message} from './stores'
-
+    import { message } from './stores'
 </script>
 
 <style>

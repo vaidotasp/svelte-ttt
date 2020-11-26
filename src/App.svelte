@@ -5,25 +5,55 @@
     import StatusBar from './StatusBar.svelte'
     import ChoosePlayer from './ChoosePlayer.svelte'
 
-    let gameStarted = false;
-    let playerChosen: null | 'x' | 'o' = null;
+    let gameStarted = false
+    let playerChosen: null | 'x' | 'o' = null
 
-    function initGame(){
-        gameStarted = true;
+    function initGame() {
+        gameStarted = true
     }
 
-    function resetGame(){
-        gameStarted = false;
-        playerChosen = null;
-        game.reset();
-
+    function resetGame() {
+        gameStarted = false
+        playerChosen = null
+        game.reset()
     }
 
-    function handleMessage(msg){
-        playerChosen = msg.detail.value;
-        game.pickPlayerSymbol(msg.detail.value);
+    function handleMessage(msg) {
+        playerChosen = msg.detail.value
+        game.pickPlayerSymbol(msg.detail.value)
     }
 </script>
+
+<style>
+    main {
+        text-align: center;
+        padding: 1em;
+    }
+
+    .main-wrap {
+        display: flex;
+        margin-top: 20px;
+        flex-direction: column;
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: #ff3e00;
+        text-transform: uppercase;
+        font-size: 4em;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .top-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        margin-top: 20px;
+    }
+</style>
 
 <main>
     <h1>TicTacToe game built with Svellllte</h1>
@@ -42,35 +72,3 @@
         <StatusBar />
     </div>
 </main>
-
-<style>
-    main {
-        text-align: center;
-        padding: 1em;
-    }
-
-    .main-wrap {
-        display: flex;
-        margin-top:20px;
-        flex-direction: column;
-        width: 400px;
-        margin: 0 auto;
-    }
-
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4em;
-        padding:0;
-        margin:0;
-        margin-bottom: 20px;
-    }
-
-    .top-bar {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-</style>
