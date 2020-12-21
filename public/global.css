@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 html,
 body {
@@ -12,7 +12,7 @@ body {
     margin: 0;
     padding: 8px;
     box-sizing: border-box;
-    font-family: 'Special Elite', cursive;
+    font-family: 'Major Mono Display', cursive;
 }
 
 a {

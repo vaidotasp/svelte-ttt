@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { game } from './stores'
+    import { gameCellClick } from './stores'
     export let value
     export let i
 
     function cellClickHanler() {
         if (!value) {
-            game.cellClick(i)
+            gameCellClick(i)
         }
     }
 </script>

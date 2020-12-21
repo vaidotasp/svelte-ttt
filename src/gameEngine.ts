@@ -1,4 +1,3 @@
-// Types for the game engine
 export type Symbols = null | 'x' | 'o'
 export type BoardState = Symbols[]
 type GameState = 'running' | 'done' | 'idle'
@@ -24,7 +23,6 @@ export class Game {
     checkWinState(board: BoardState, symbol: Symbols): null | Symbols {
         let winState = false
         let symbolIndexes = []
-        //get all symbol indexes
         board.forEach((c, index) => {
             if (c === symbol) {
                 symbolIndexes.push(index)
@@ -88,21 +86,9 @@ export class Game {
         return { board: this.boardState, winState }
     }
 
-    setGameState(state: GameState) {
-        this._gameState = state
-    }
-
-    updateGameState(s: GameState): void {
-        this._gameState = s
-    }
-
     checkIfDraw(): boolean {
         const filledBoardCells = this.boardState.filter((c) => c)
-        console.log(filledBoardCells)
-        if (filledBoardCells.length === 9) {
-            return true
-        }
-        return false
+        return filledBoardCells.length === 9
     }
 
     checkSymbolOwnership(s: Symbols): 'human' | 'computer' {

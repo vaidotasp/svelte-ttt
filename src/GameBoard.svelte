@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { game } from './stores'
+    import { gameStore } from './stores'
     import Cell from './Cell.svelte'
 </script>
 
@@ -10,10 +10,13 @@
         grid-template-columns: 150px 150px 150px;
         grid-template-rows: 150px 150px 150px;
     }
+    .disabled {
+        pointer-events: none;
+    }
 </style>
 
-<div class="gameboard">
-    {#each $game as cell, index}
+<div class={$gameStore.gameStatus === 'stop' ? 'gameboard disabled' : 'gameboard'}>
+    {#each $gameStore.gameBoard as cell, index}
         <Cell value={cell} i={index} />
     {/each}
 </div>

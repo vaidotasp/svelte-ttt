@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { game } from './stores'
+    import { message, resetGameBoard, pickPlayerSymbol } from './stores'
     import Score from './Score.svelte'
     import GameBoard from './GameBoard.svelte'
     import StatusBar from './StatusBar.svelte'
@@ -15,12 +15,14 @@
     function resetGame() {
         gameStarted = false
         playerChosen = null
-        game.reset()
+        resetGameBoard()
+        message.reset()
     }
 
     function handleMessage(msg) {
         playerChosen = msg.detail.value
-        game.pickPlayerSymbol(msg.detail.value)
+        pickPlayerSymbol(msg.detail.value)
+        message.updateMessage(`You've chosen ${msg.detail.value.toUpperCase()}`)
     }
 </script>
 
